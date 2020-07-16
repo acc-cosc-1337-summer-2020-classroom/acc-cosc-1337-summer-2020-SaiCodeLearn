@@ -61,6 +61,14 @@ int main()
 	first_name[1] = 'o';
 	first_name[2] = 'e';
 	first_name[3] = '\0';//Don't forget this at the end
+	cout<<"\nfirst name: "<<first_name<<"\n";//Will disply first name
+	
+	first_name[0] = 'j';//Modding char array values
+
+	//Pointers and char arrays
+	char *ptr_last_name = last_name;//Pointing to 'E' in Eisenhower
+	cout<<"Last name by pointer: "<<ptr_last_name;//Should display 'E'
+	//Remember these are only stack arrays and pointers
 	return 0;
 }
 
