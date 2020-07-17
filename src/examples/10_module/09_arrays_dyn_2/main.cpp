@@ -2,6 +2,7 @@
 #include<cctype>//For comparing looking at chars
 #include "arrays_dyn_2.h"
 #include<cstring>//for character arrays
+#include<string>//Special string-> int
 using std::cout;
 
 int main() 
@@ -76,8 +77,14 @@ int main()
 	cout<<"Length of first_name:"<<strlen(first_name)<<"\n";//length doesn't include '\0'
 	cout<<"Length of last_name:"<<strlen(last_name)<<"\n";
 	
+	//Concatenation
 	strcat(first_name, last_name);//Adding two strings together
 	cout<<"Concatenate: "<<first_name<<"\n";//Concatenated string displayed
+
+	//Conversion from string to integer
+	int i = std::stoi("S");
+	cout<<"Conversion: "<<i<<"\n";
+
 	return 0;
 }
 
