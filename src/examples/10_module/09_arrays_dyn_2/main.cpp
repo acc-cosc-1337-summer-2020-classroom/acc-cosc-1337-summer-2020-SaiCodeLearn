@@ -46,7 +46,7 @@ int main()
 
 
 	//Another example of the above
-	cout<<"\n\n"
+	cout<<"\n\n";
 
 	//Have to initialize back to 0 to initiate 2nd array
 	indx =0;
@@ -69,7 +69,7 @@ int main()
 
 	//Pointers and char arrays
 	char *ptr_last_name = last_name;//Pointing to 'E' in Eisenhower
-	cout<<"Last name by pointer: "<<ptr_last_name<<"\n";//Should display 'E'
+	cout<<"Last name by pointer: "<<ptr_last_name<<"\n";//Should display 'Eisenhower'
 	//Remember these are only stack arrays and pointers
 
 	//use cstring header to find length of string
@@ -82,7 +82,7 @@ int main()
 	cout<<"Concatenate: "<<first_name<<"\n";//Concatenated string displayed
 
 	//Conversion from string to integer
-	int i = std::stoi("S");
+	int i = std::stoi("5");
 	cout<<"Conversion: "<<i<<"\n";
 
 	return 0;
