@@ -11,6 +11,8 @@ public:
     Vector(size_t sz);
     Vector(const Vector& v);//copy constructor - RULE OF 3 C++98
     Vector& operator=(const Vector & v);//Copy Assignment RULE OF 3 C++ 98
+    Vector(Vector&& v);//move constructor cpp 11 Rule of 5 
+    Vector& operator=(Vector&& v);//move assignment cpp 11 Rule of 5
     size_t Size()const{return size;} //Allows to create a test case
     int& operator[](size_t i){return elements[i];}
     int& operator[](size_t i)const{return elements[i];}
@@ -27,6 +29,7 @@ private:
 //free function - not part of the vector class
 void use_stack_vector();
 void use_heap_vector();
+Vector get_vector();
 
 
 #endif

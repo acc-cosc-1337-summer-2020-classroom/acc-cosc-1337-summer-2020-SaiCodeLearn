@@ -49,6 +49,37 @@ Vector& Vector::operator=(const Vector & v)
     return *this;
 }
 
+/*
+1 - Get dynamic memory from v1(temp)
+2 - get the size
+3 - set size and elements of temp object to 0 and nullptr
+    -We are not deleting this pointer yet
+*/
+Vector::Vector(Vector&& v)
+    :size{v.size}, elements{v.elements}
+{
+    v.size = 0;
+    v.elements = nullptr;//
+}
+
+/*
+1-de allocate original dynamic memory
+2-get the dynamic memory from v1
+3-get the size from v1
+4-set v1.elements to nullptr
+5-v1.size to 0
+6-return a self reference
+*/
+Vector& Vector::operator=(Vector&& v)//v1 is already in memory
+{
+    delete[] elements;//This would delete the original memory(v1)
+    elements = v.elements; //This transfers memory from the v to v1
+    size = v.size;
+    v.elements = nullptr;
+    v.size = 0;
+
+    return *this;//Returns v1
+}
 
 Vector::~Vector()
 {   
@@ -70,4 +101,11 @@ void use_heap_vector()
     //delete memory here - Call the destructor here
     delete v1;
     v1 = nullptr;
+}
+
+Vector get_vector()
+{   
+    //This passes by value
+    Vector v1(3);
+    return v1;
 }
