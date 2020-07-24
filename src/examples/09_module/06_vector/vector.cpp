@@ -3,7 +3,7 @@
 
 //
 Vector::Vector(size_t sz)
-: size{sz}, elements{new int[sz]}
+: size{0}, elements{new int[sz]}, space{sz}
 {
     for(size_t i=0; i<sz; ++i)
     {
@@ -18,7 +18,7 @@ Vector::Vector(size_t sz)
 */
 
 Vector::Vector(const Vector& v)
-: size{v.size}, elements{new int[v.size]}
+: size{v.size}, elements{new int[v.size]}//Rewatch video to fix this part
 {
     for(size_t i=0; i<size; ++i)
     {
@@ -79,6 +79,78 @@ Vector& Vector::operator=(Vector&& v)//v1 is already in memory
     v.size = 0;
 
     return *this;//Returns v1
+}
+
+/*
+1-New allocation must be greater than space
+2-Create temporary dynamic memory of size new allocation
+3-Copy values from old memory array to temp array
+4-Delete old memory
+5-Set elements to temporary dynamic memory
+6-set space to new allocation values
+*/
+
+//resize makes the extra memory available
+//reserve is for later use; like when we call pushback and there isn't enough memory
+
+void Vector::Reserve(size_t new_allocation)
+{
+    if(new_allocation <= space)
+    {
+        return; //This ends execution of the function immediately
+    }
+
+    int*temp = new int[new_allocation];
+
+    for(size_t i =0; i<size; ++i)
+    {
+        temp[i] = elements[i];
+    }
+
+    delete[] elements;
+
+    elements = temp;
+
+    space = new_allocation;
+}
+
+/*
+1-Reserve new allocation space
+2-Initialize element values beyond the size value to 0
+3-Set size to new_allocation
+*/
+void Vector::Resize(size_t new_allocation)//Used when size and space are same
+{
+    Reserve(new_allocation);
+
+    for(size_t i =size; i < new_allocation; ++i)
+    {
+        elements[i] = 0;
+    }
+
+    size = new_allocation;
+}
+
+/*
+1-if space 0 call reserve with reserve default size
+2-else if size equals space resize to space * reserve default multiplier
+3-set element at current size to value
+4-Increment size by 1
+*/
+void Vector::PushBack(int value)
+{
+    if(space == 0)//Space is going to be equal to 0 if we pass 0
+    {
+        Reserve(RESERVE_DEFAULT_SIZE);
+    }
+
+    else if(size == space)
+    {
+        Resize(space * RESERVE_DEFAULT_MULTIPLIER);
+    }
+
+    elements[size] = value;
+    ++size;
 }
 
 Vector::~Vector()

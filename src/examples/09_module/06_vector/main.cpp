@@ -23,12 +23,26 @@ int main()
     //5 = num;
 
     //If we use this declaration, it works - &&
-    int && num_5_ref = 5;
+    /*int && num_5_ref = 5;
     cout<<"Rvalue ref: "<<num_5_ref<<"\n";
     
     num_5_ref = 10;
-    cout<<"Rvalue ref: "<<num_5_ref<<"\n";
-    
+    cout<<"Rvalue ref: "<<num_5_ref<<"\n";*/
+
+    Vector v(3);
+
+    for(size_t i =0; i<3; ++i)
+    {
+        cout<<v[i]<<"\n";//Should display 0 0 0 (all in newlines)
+    }
+
+    cout<<"\n";
+    v.PushBack(5);
+    for(size_t i =0; i<v.Size(); ++i)
+    {
+        cout<<v[i]<<"\n";//Should display 0 0 0 (all in newlines)
+    }
+
     return 0;
 }
 

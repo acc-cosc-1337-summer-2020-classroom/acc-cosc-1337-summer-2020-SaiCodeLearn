@@ -14,16 +14,20 @@ public:
     Vector(Vector&& v);//move constructor cpp 11 Rule of 5 
     Vector& operator=(Vector&& v);//move assignment cpp 11 Rule of 5
     size_t Size()const{return size;} //Allows to create a test case
+    size_t Capacity()const{return space;}
+    void Reserve(size_t new_allocation);
+    void Resize(size_t new_allocation);//This will collaborate with reserve
+    void PushBack(int value);
     int& operator[](size_t i){return elements[i];}
     int& operator[](size_t i)const{return elements[i];}
-    void set_size(size_t sz){size = sz;}
-    //now we can get rid of the below because of overload
-    //void set_element_value(size_t index, int value){elements[index] = value;}
-    //int get_element(size_t index){return elements[index];}
     ~Vector();//Destructor to release memory - RULE OF 3 C++ 98
-private:
+
+private://Initialize class in the same order 
     size_t size;
     int *elements;
+    size_t space;
+    const int RESERVE_DEFAULT_SIZE{8};//What most vendors give
+    const int RESERVE_DEFAULT_MULTIPLIER{2};
 };
 
 //free function - not part of the vector class
