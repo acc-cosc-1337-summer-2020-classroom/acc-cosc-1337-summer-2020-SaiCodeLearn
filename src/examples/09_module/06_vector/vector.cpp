@@ -2,8 +2,17 @@
 #include <iostream>
 
 //
-Vector::Vector(size_t sz)
-: size{0}, elements{new int[sz]}, space{sz}
+
+template<typename T>
+Vector<T>::Vector()
+: size{0}, space{0}, elements{nullptr}
+{
+
+}
+
+template<typename T>
+Vector<T>::Vector(size_t sz)
+: size{0}, elements{new T[sz]}, space{sz}
 {
     for(size_t i=0; i<sz; ++i)
     {
@@ -16,8 +25,8 @@ Vector::Vector(size_t sz)
 2. Intialize memory
 3- Copy element values from v1 into v2
 */
-
-Vector::Vector(const Vector& v)
+template<typename T>
+Vector<T>::Vector(const Vector& v)
 : size{v.size}, elements{new int[v.size]}//Rewatch video to fix this part
 {
     for(size_t i=0; i<size; ++i)
@@ -26,6 +35,7 @@ Vector::Vector(const Vector& v)
     }
 }
 
+template<typename T>
 /*
 1-Create temporary memory
 2-Copy v1 values into temporary memory
@@ -33,9 +43,14 @@ Vector::Vector(const Vector& v)
 4-Point elements memory to temporary memory
 5-Return a reference to this vector
 */
-Vector& Vector::operator=(const Vector & v)
-{
-    int *temp = new int[v.size];
+Vector<T>& Vector<T>::operator=(const Vector<T> & v)
+{   
+    if(this == &v)//this prevents the same class being copied to itself
+    {
+        return *this;
+    }
+
+    T *temp = new T[v.size];
     
     for(size_t i =0; i<v.size; ++i)
     {
@@ -49,19 +64,22 @@ Vector& Vector::operator=(const Vector & v)
     return *this;
 }
 
+
 /*
 1 - Get dynamic memory from v1(temp)
 2 - get the size
 3 - set size and elements of temp object to 0 and nullptr
     -We are not deleting this pointer yet
 */
-Vector::Vector(Vector&& v)
+template<typename T>
+Vector<T>::Vector(Vector<T>&& v)
     :size{v.size}, elements{v.elements}
 {
     v.size = 0;
     v.elements = nullptr;//
 }
 
+template<typename T>
 /*
 1-de allocate original dynamic memory
 2-get the dynamic memory from v1
@@ -70,8 +88,12 @@ Vector::Vector(Vector&& v)
 5-v1.size to 0
 6-return a self reference
 */
-Vector& Vector::operator=(Vector&& v)//v1 is already in memory
-{
+Vector<T>& Vector<T>::operator=(Vector<T>&& v)//v1 is already in memory
+{   
+    if(this == &v)//this prevents the same class being copied to itself
+    {
+        return *this;
+    }
     delete[] elements;//This would delete the original memory(v1)
     elements = v.elements; //This transfers memory from the v to v1
     size = v.size;
@@ -92,8 +114,8 @@ Vector& Vector::operator=(Vector&& v)//v1 is already in memory
 
 //resize makes the extra memory available
 //reserve is for later use; like when we call pushback and there isn't enough memory
-
-void Vector::Reserve(size_t new_allocation)
+template<typename T>
+void Vector<T>::Reserve(size_t new_allocation)
 {
     if(new_allocation <= space)
     {
@@ -119,7 +141,8 @@ void Vector::Reserve(size_t new_allocation)
 2-Initialize element values beyond the size value to 0
 3-Set size to new_allocation
 */
-void Vector::Resize(size_t new_allocation)//Used when size and space are same
+template<typename T>
+void Vector<T>::Resize(size_t new_allocation)//Used when size and space are same
 {
     Reserve(new_allocation);
 
@@ -137,7 +160,8 @@ void Vector::Resize(size_t new_allocation)//Used when size and space are same
 3-set element at current size to value
 4-Increment size by 1
 */
-void Vector::PushBack(int value)
+template<typename T>
+void Vector<T>::PushBack(T value)
 {
     if(space == 0)//Space is going to be equal to 0 if we pass 0
     {
@@ -152,32 +176,36 @@ void Vector::PushBack(int value)
     elements[size] = value;
     ++size;
 }
-
-Vector::~Vector()
+template<typename T>
+Vector<T>::~Vector()
 {   
     std::cout<<"\nrelease memory";
     delete[] elements;
 }
 
 
+template class Vector<int>;
+template class Vector<double>;
+
+
 //NOT PART OF THE VECTOR CLASS!!!
 void use_stack_vector()
 {
-    Vector v1(3);//delete will be automatically called - No memory leak
+    Vector<int> v1(3);//delete will be automatically called - No memory leak
 }
 
 void use_heap_vector()
 {
-    Vector *v1 = new Vector(3);//Creates dynamic memory
+    Vector<int> *v1 = new Vector<int>(3);//Creates dynamic memory
 
     //delete memory here - Call the destructor here
     delete v1;
     v1 = nullptr;
 }
 
-Vector get_vector()
+/*Vector get_vector()
 {   
     //This passes by value
-    Vector v1(3);
+    Vector<int> v1(3);
     return v1;
-}
+}*/

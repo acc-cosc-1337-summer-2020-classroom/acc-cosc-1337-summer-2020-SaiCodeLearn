@@ -29,20 +29,25 @@ int main()
     num_5_ref = 10;
     cout<<"Rvalue ref: "<<num_5_ref<<"\n";*/
 
-    Vector v(3);
-
+    Vector<int> v(3);
+    //v = v; We dont want this because its unnecessary
+    
+    v.PushBack(5);
+    v.PushBack(10);
+    cout<<"Capacity: "<<v.Capacity();//Capacity should be 3
     for(size_t i =0; i<3; ++i)
     {
         cout<<v[i]<<"\n";//Should display 0 0 0 (all in newlines)
     }
 
-    cout<<"\n";
-    v.PushBack(5);
+    
+    v.PushBack(7);//Size is 3
+    v.PushBack(12);//Space must be added to elements array
     for(size_t i =0; i<v.Size(); ++i)
     {
         cout<<v[i]<<"\n";//Should display 0 0 0 (all in newlines)
     }
-
+    cout<<"Capacity: "<<v.Capacity();//Capacity should be 6  
     return 0;
 }
 
